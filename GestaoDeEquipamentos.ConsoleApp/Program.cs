@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp;
+﻿using System.Security.Cryptography;
+using GestaoDeEquipamentos.ConsoleApp;
 
 Equipamento? [] equipamentos = new Equipamento[100];
 
@@ -23,7 +24,7 @@ while (true)
         break;
     }
 
-    if (opcaoMenu == "1")
+    if (opcaoMenu == "1") // Cadastrar
     {
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
@@ -62,6 +63,8 @@ while (true)
         Console.WriteLine("Digite a data de fabricação do equipamento (DD/MM/AAAA): ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
+        novoEquipamento.id = Convert.ToHexString(RandomNumberGenerator.GetBytes(20)).ToLower().Substring(0, 7); // 0-255
+
         for (int i = 0; i < equipamentos.Length; i++)
         {
             Equipamento? e = equipamentos[i];
@@ -81,13 +84,185 @@ while (true)
 
     }
 
-    else if (opcaoMenu == "2")
+    else if (opcaoMenu == "2") //Cadastrar
     {
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Gestão de Equipamentos");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Edição de Equipamento");
+        Console.WriteLine("---------------------------------");
 
+        Console.WriteLine(
+            "{0, -7} |  {1, -15} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
+        );
+
+        for (int i = 0; i < equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+
+            if (e == null) // null guard/check
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} |  {1, -15} | {2,-15} | {3, -22} | {4, -10}",
+                e.id, e.nome, e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            );                       
+        }
+
+        string? idSelecionado;
+
+        do
+        {
+        Console.WriteLine("Digite o id do equipamento que deseja editar: ");
+        idSelecionado = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+            break;
+        } while (true);
+
+        Equipamento? equipamentoSelecionado = null;
+
+        for (int i = 0; i < equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+
+            if (e == null)
+                continue;
+            
+            if (e.id == idSelecionado)
+            {
+                equipamentoSelecionado = e;
+                break;
+            }
+        }
+
+        if (equipamentoSelecionado == null)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o equipamento selecionado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            continue;
+        }
+
+        Equipamento novoEquipamento = new Equipamento();
+
+        do
+        {
+            Console.WriteLine("Digite o nome do equipamento: ");
+            novoEquipamento.nome = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.nome) && novoEquipamento.nome.Length > 3)
+            {
+                break;
+            }            
+        } while (true); 
+
+        do
+        {
+            Console.WriteLine("Digite o fabricante do equipamento: ");
+            novoEquipamento.fabricante = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(novoEquipamento.fabricante)
+            && novoEquipamento.fabricante.Length > 2)
+            {
+                break;
+            }            
+        } while (true);
+
+        Console.WriteLine("Digite o preço de aquisição do equipamento: ");
+        novoEquipamento.precoAquisicao = Convert.ToDecimal(Console.ReadLine());
+
+        Console.WriteLine("Digite a data de fabricação do equipamento (DD/MM/AAAA): ");
+        novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
+
+        equipamentoSelecionado.nome = novoEquipamento.nome;
+        equipamentoSelecionado.fabricante = novoEquipamento.fabricante;
+        equipamentoSelecionado.precoAquisicao = novoEquipamento.precoAquisicao;
+        equipamentoSelecionado.dataFabricacao = novoEquipamento.dataFabricacao;
+
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{equipamentoSelecionado.id}\" foi editado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();
     }
 
     else if (opcaoMenu == "3")
     {
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Gestão de Equipamentos");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Exclusão de Equipamento");
+        Console.WriteLine("---------------------------------");
+
+        Console.WriteLine(
+            "{0, -7} |  {1, -15} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
+        );
+
+        for (int i = 0; i < equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+
+            if (e == null) // null guard/check
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} |  {1, -15} | {2,-15} | {3, -22} | {4, -10}",
+                e.id, e.nome, e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            );                       
+        }
+
+        string? idSelecionado;
+
+        do
+        {
+        Console.WriteLine("Digite o id do equipamento que deseja excluir: ");
+        idSelecionado = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+            break;
+        } while (true);
+
+        bool equipamentoExcluido = false;
+
+        for (int i = 0; i < equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+
+            if (e == null)
+            {
+                continue;
+            }
+
+            if (e.id == idSelecionado)
+            {
+                equipamentos[i] = null;
+                equipamentoExcluido = true;
+                break;
+            }
+        }
+
+        if (equipamentoExcluido)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
+            Console.WriteLine("---------------------------------");        
+        }
+
+        else
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi poss´vel acessar o id \"{idSelecionado}\"!");
+            Console.WriteLine("---------------------------------");
+        }
+
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();
 
     }
 
