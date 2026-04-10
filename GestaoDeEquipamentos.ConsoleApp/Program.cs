@@ -25,7 +25,8 @@ while (true)
     }
 
     if (opcaoMenu == "1") // Cadastrar
-    {
+    {   
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -86,6 +87,7 @@ while (true)
 
     else if (opcaoMenu == "2") //Cadastrar
     {
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -193,6 +195,7 @@ while (true)
 
     else if (opcaoMenu == "3")
     {
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -257,7 +260,7 @@ while (true)
         else
         {
             Console.WriteLine("---------------------------------");
-            Console.WriteLine($"Não foi poss´vel acessar o id \"{idSelecionado}\"!");
+            Console.WriteLine($"Não foi possível acessar o id \"{idSelecionado}\"!");
             Console.WriteLine("---------------------------------");
         }
 
