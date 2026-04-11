@@ -2,7 +2,6 @@
 using GestaoDeEquipamentos.ConsoleApp.Apresentacao;
 using GestaoDeEquipamentos.ConsoleApp.Dominio;
 
-Equipamento? [] equipamentos = new Equipamento[100];
 TelaEquipamento telaEquipamento = new TelaEquipamento();
 
 while (true)
@@ -16,14 +15,14 @@ while (true)
     }
 
     if (opcaoMenu == "1")
-        telaEquipamento.Cadastrar(equipamentos);    
+        telaEquipamento.Cadastrar();    
 
     else if (opcaoMenu == "2")
-        telaEquipamento.Editar(equipamentos);
+        telaEquipamento.Editar();
     
     else if (opcaoMenu == "3")
-        telaEquipamento.Excluir(equipamentos);
+        telaEquipamento.Excluir();
 
     else if (opcaoMenu == "4")
-        telaEquipamento.Visualizar(equipamentos);
+        telaEquipamento.Visualizar();
 }
