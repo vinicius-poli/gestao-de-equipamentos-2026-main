@@ -24,6 +24,41 @@ public class RepositorioFabricante
         }
     }
 
+    public bool Editar(string idSelecionado, Fabricante novoFabricante)
+    {
+        Fabricante? fabricanteSelecionado = SelecionarPorId(idSelecionado);
+
+        if (fabricanteSelecionado == null)
+            return false;
+
+        fabricanteSelecionado.nome = novoFabricante.nome;
+        fabricanteSelecionado.email = novoFabricante.email;
+        fabricanteSelecionado.telefone = novoFabricante.telefone;        
+
+        return true;
+    }
+
+    public Fabricante? SelecionarPorId(string idSelecionado)
+    {
+        Fabricante? fabricanteSelecionado = null;
+
+        for (int i = 0; i < fabricantes.Length; i++)
+        {
+            Fabricante? f = fabricantes[i];
+
+            if (f == null)
+                continue;
+            
+            if (f.id == idSelecionado)
+            {
+                fabricanteSelecionado = f;
+                break;
+            }
+        }
+
+        return fabricanteSelecionado;
+    }
+
     public Fabricante?[] SelecionarTodos()
     {
         return fabricantes;
