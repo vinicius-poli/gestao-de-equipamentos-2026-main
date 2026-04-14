@@ -52,7 +52,7 @@ public class TelaChamado
 
         do
         {
-            Console.WriteLine("Digite o id do equipamento que deseja editar: ");
+            Console.WriteLine("Digite o id do chamado que deseja editar: ");
             idSelecionado = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
@@ -93,6 +93,40 @@ public class TelaChamado
     public void Excluir()
     {
         ExibirCabecalho("Exclusão de Chamado");
+
+        Visualizar(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+        
+        string? idSelecionado;        
+
+        do
+        {
+            Console.WriteLine("Digite o id do chamado que deseja excluir: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);     
+
+        bool conseguiuExcluir = repositorioChamado.Excluir(idSelecionado);  
+
+        if (!conseguiuExcluir)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o registro informado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();       
+
     }
     public void Visualizar(bool deveExibirCabecalho)
     {
