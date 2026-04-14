@@ -102,9 +102,9 @@ public class TelaEquipamento
             );                       
         }
 
-        string? idSelecionado;
-
         Console.WriteLine("---------------------------------");
+        
+        string? idSelecionado;        
 
         do
         {
