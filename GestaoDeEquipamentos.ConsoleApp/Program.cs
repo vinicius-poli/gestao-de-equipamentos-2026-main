@@ -78,7 +78,7 @@ while (true)
                 telaChamado.Excluir();
 
             else if (opcaoMenu == "4")
-                telaChamado.Visualizar();
+                telaChamado.Visualizar(deveExibirCabecalho: true);
         }
     }    
 }    

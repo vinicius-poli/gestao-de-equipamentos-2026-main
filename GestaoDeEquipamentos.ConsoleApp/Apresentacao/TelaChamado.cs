@@ -29,6 +29,117 @@ public class TelaChamado
     {
         ExibirCabecalho("Cadastro de Chamado");
         
+        Chamado novoChamado = ObterDadosCadastrais();
+
+        repositorioChamado.Cadastrar(novoChamado);
+                
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{novoChamado.titulo}\" foi cadastrado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();
+    }
+    
+    public void Editar()
+    {
+        ExibirCabecalho("Edição de Chamado");
+
+        Visualizar(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+        
+        string? idSelecionado;        
+
+        do
+        {
+            Console.WriteLine("Digite o id do equipamento que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        Chamado? novoChamado = ObterDadosCadastrais();
+
+        if (novoChamado == null)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível obter os dados do registro!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }        
+
+        bool conseguiuEditar = repositorioChamado.Editar(idSelecionado, novoChamado);
+
+        if (!conseguiuEditar)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o registro informado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        } 
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi editado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();       
+
+    }
+    public void Excluir()
+    {
+        ExibirCabecalho("Exclusão de Chamado");
+    }
+    public void Visualizar(bool deveExibirCabecalho)
+    {
+        if (deveExibirCabecalho)
+            ExibirCabecalho("Visualização de Chamados");
+               
+        
+        Console.WriteLine(
+            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Título", "Equipamento", "Data de Abertura", "Dias desde a abertura"
+        );
+
+        Chamado?[] chamados = repositorioChamado.SelecionarTodos();
+
+        for (int i = 0; i < chamados.Length; i++)
+        {
+            Chamado? c = chamados[i];
+
+            if (c == null) // null guard/check
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+                c.id, c.titulo, c.equipamento.nome, c.dataAbertura.ToShortDateString(), c.ObterDiasDecorridos());                       
+        }
+
+        if (deveExibirCabecalho)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+        }               
+    }
+    
+
+    public void ExibirCabecalho(string titulo)
+    {
+        Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Gestão de Chamados");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(titulo);
+        Console.WriteLine("---------------------------------");
+    }
+
+    public Chamado? ObterDadosCadastrais()
+    {
         Console.WriteLine(
             "{0, -7} |  {1, -15} | {2,-15} | {3, -22} | {4, -10}",
             "id", "Nome", "Fabricante", "Preço de Aquisição", "Data de Fabricação"
@@ -71,7 +182,7 @@ public class TelaChamado
             Console.WriteLine("---------------------------------");
             Console.WriteLine("Digite ENTER para continuar...");
             Console.ReadLine();
-            return;
+            return null;
         }
 
         Chamado novoChamado = new Chamado();
@@ -92,61 +203,8 @@ public class TelaChamado
         Console.WriteLine("Digite a descrição do chamado: ");
         novoChamado.descricao = Console.ReadLine(); 
 
-        novoChamado.dataAbertura = DateTime.Now.AddDays(-3);
+        novoChamado.dataAbertura = DateTime.Now;
 
-        repositorioChamado.Cadastrar(novoChamado);
-                
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"O registro \"{novoChamado.titulo}\" foi cadastrado com sucesso!");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");
-        Console.ReadLine();
-    }
-    
-    public void Editar()
-    {
-        ExibirCabecalho("Edição de Chamado");
-
-    }
-    public void Excluir()
-    {
-        ExibirCabecalho("Exclusão de Chamado");
-    }
-    public void Visualizar()
-    {
-        ExibirCabecalho("Visualização de Chamados");
-        
-        Console.WriteLine(
-            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
-            "id", "Título", "Equipamento", "Data de Abertura", "Dias desde a abertura"
-        );
-
-        Chamado?[] chamados = repositorioChamado.SelecionarTodos();
-
-        for (int i = 0; i < chamados.Length; i++)
-        {
-            Chamado? c = chamados[i];
-
-            if (c == null) // null guard/check
-                continue;
-
-            Console.WriteLine(
-                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
-                c.id, c.titulo, c.equipamento.nome, c.dataAbertura.ToShortDateString(), c.ObterDiasDecorridos());                       
-        }
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");
-        Console.ReadLine();
-    }
-    
-
-    public void ExibirCabecalho(string titulo)
-    {
-        Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Gestão de Chamados");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(titulo);
-        Console.WriteLine("---------------------------------");
+        return novoChamado;
     }
 }
