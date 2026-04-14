@@ -23,4 +23,9 @@ public class RepositorioFabricante
             }
         }
     }
+
+    public Fabricante?[] SelecionarTodos()
+    {
+        return fabricantes;
+    }
 }
