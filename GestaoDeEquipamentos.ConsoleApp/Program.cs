@@ -22,7 +22,7 @@ telaFabricante.repositorioEquipamento = repositorioEquipamento;
 
 while (true)
 {    
-    //Console.Clear();
+    Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Gestão de Equipamentos");
     Console.WriteLine("---------------------------------");
@@ -36,7 +36,7 @@ while (true)
     
     if (opcaoMenuPrincipal == "S")
     {
-        //Console.Clear();
+        Console.Clear();
         break;
     }
 
@@ -48,7 +48,7 @@ while (true)
 
             if (opcaoMenu == "S")
             {
-                //Console.Clear();
+                Console.Clear();
                 break;
             }
 
@@ -71,7 +71,7 @@ while (true)
 
             if (opcaoMenu == "S")
             {
-                //Console.Clear();
+                Console.Clear();
                 break;
             }
 
@@ -94,7 +94,7 @@ while (true)
 
             if (opcaoMenu == "S")
             {
-                //Console.Clear();
+                Console.Clear();
                 break;
             }
 
