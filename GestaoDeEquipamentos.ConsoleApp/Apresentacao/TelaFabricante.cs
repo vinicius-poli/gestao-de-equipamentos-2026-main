@@ -49,6 +49,18 @@ public class TelaFabricante
         Console.WriteLine("Digite o número de telefone do fabricante: ");
         novoFabricante.telefone = Console.ReadLine();
 
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+        
+        for (int i = 0; i <= equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+            
+            if (e == null)
+                break;
+            if (e.fabricante == novoFabricante.nome)            
+                novoFabricante.numeroEquipamentos++;            
+        }
+
         repositorioFabricante.Cadastrar(novoFabricante);
 
         Console.WriteLine("---------------------------------");
@@ -151,8 +163,8 @@ public class TelaFabricante
                
         
         Console.WriteLine(
-            "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-            "id", "Nome", "Email", "Telefone"
+            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Email", "Telefone", "Número de Equipamentos"
             );
 
         Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
@@ -165,8 +177,8 @@ public class TelaFabricante
                 continue;
 
             Console.WriteLine(
-                "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-                f.id, f.nome, f.email, f.telefone);                       
+                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+                f.id, f.nome, f.email, f.telefone, f.numeroEquipamentos);                       
         }
 
         if (deveExibirCabecalho)
@@ -189,8 +201,8 @@ public class TelaFabricante
     public Fabricante? ObterDadosCadastrais()
     {
         Console.WriteLine(
-            "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-            "id", "Nome", "Email", "Telefone"
+            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Email", "Telefone", "Número de Fabricantes"
         );
 
         Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
@@ -203,8 +215,8 @@ public class TelaFabricante
                 continue;
 
             Console.WriteLine(
-                "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-                f.id, f.nome, f.email, f.telefone
+                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+                f.id, f.nome, f.email, f.telefone, f.numeroEquipamentos
             );                       
         }
 
@@ -250,7 +262,19 @@ public class TelaFabricante
         novoFabricante.email = Console.ReadLine(); 
         
         Console.WriteLine("Digite o número de telefone do fabricante: ");
-        novoFabricante.email = Console.ReadLine();         
+        novoFabricante.telefone = Console.ReadLine();
+
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+        
+        for (int i = 0; i <= equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+            
+            if (e == null)
+                break;
+            if (e.fabricante == novoFabricante.nome)            
+                novoFabricante.numeroEquipamentos++;            
+        }         
 
         return novoFabricante;
     }
