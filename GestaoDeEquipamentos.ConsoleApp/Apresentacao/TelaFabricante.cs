@@ -49,6 +49,18 @@ public class TelaFabricante
         Console.WriteLine("Digite o número de telefone do fabricante: ");
         novoFabricante.telefone = Console.ReadLine();
 
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+        
+        for (int i = 0; i <= equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+            
+            if (e == null)
+                break;
+            if (e.fabricante == novoFabricante.nome)            
+                novoFabricante.numeroEquipamentos++;            
+        }
+
         repositorioFabricante.Cadastrar(novoFabricante);
 
         Console.WriteLine("---------------------------------");
@@ -60,11 +72,89 @@ public class TelaFabricante
 
     public void Editar()
     {
+        ExibirCabecalho("Edição de Fabricante");
+
+        Visualizar(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
         
+        string? idSelecionado;        
+
+        do
+        {
+            Console.WriteLine("Digite o id do fabricante que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        Fabricante? novoFabricante = ObterDadosCadastrais();
+
+        if (novoFabricante == null)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível obter os dados do registro!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }        
+
+        bool conseguiuEditar = repositorioFabricante.Editar(idSelecionado, novoFabricante);
+
+        if (!conseguiuEditar)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o registro informado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        } 
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi editado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();       
     }
     public void Excluir()
     {
+        ExibirCabecalho("Exclusão de Fabricante");
+
+        Visualizar(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
         
+        string? idSelecionado;        
+
+        do
+        {
+            Console.WriteLine("Digite o id do fabricante que deseja excluir: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);     
+
+        bool conseguiuExcluir = repositorioFabricante.Excluir(idSelecionado);  
+
+        if (!conseguiuExcluir)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o registro informado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();       
     }
     public void Visualizar(bool deveExibirCabecalho)
     {
@@ -73,8 +163,8 @@ public class TelaFabricante
                
         
         Console.WriteLine(
-            "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-            "id", "Nome", "Email", "Telefone"
+            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Email", "Telefone", "Número de Equipamentos"
             );
 
         Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
@@ -87,8 +177,8 @@ public class TelaFabricante
                 continue;
 
             Console.WriteLine(
-                "{0, -7} |  {1, -30} | {2,-15} | {3, -22}",
-                f.id, f.nome, f.email, f.telefone);                       
+                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+                f.id, f.nome, f.email, f.telefone, f.numeroEquipamentos);                       
         }
 
         if (deveExibirCabecalho)
@@ -106,5 +196,86 @@ public class TelaFabricante
         Console.WriteLine("---------------------------------");
         Console.WriteLine(titulo);
         Console.WriteLine("---------------------------------");
-    } 
+    }
+
+    public Fabricante? ObterDadosCadastrais()
+    {
+        Console.WriteLine(
+            "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+            "id", "Nome", "Email", "Telefone", "Número de Fabricantes"
+        );
+
+        Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
+
+        for (int i = 0; i < fabricantes.Length; i++)
+        {
+            Fabricante? f = fabricantes[i];
+
+            if (f == null) // null guard/check
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} |  {1, -30} | {2,-15} | {3, -22} | {4, -10}",
+                f.id, f.nome, f.email, f.telefone, f.numeroEquipamentos
+            );                       
+        }
+
+        string? idSelecionado;
+
+        Console.WriteLine("---------------------------------");
+
+        do
+        {
+        Console.WriteLine("Digite o id do fabricante que deseja selecionar: ");
+        idSelecionado = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+            break;
+        } while (true);
+
+        Fabricante? fabricanteSelecionado = repositorioFabricante.SelecionarPorId(idSelecionado);
+
+        if (fabricanteSelecionado == null)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine($"Não foi possível encontrar o fabricante selecionado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return null;
+        }
+
+        Fabricante novoFabricante = new Fabricante();
+        
+        do
+        {
+            Console.WriteLine("Digite o nome do fabricante: ");
+            novoFabricante.nome = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(novoFabricante.nome) && novoFabricante.nome.Length >= 2)
+            {
+                break;
+            }            
+        } while (true); 
+
+        Console.WriteLine("Digite o email do fabricante: ");
+        novoFabricante.email = Console.ReadLine(); 
+        
+        Console.WriteLine("Digite o número de telefone do fabricante: ");
+        novoFabricante.telefone = Console.ReadLine();
+
+        Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+        
+        for (int i = 0; i <= equipamentos.Length; i++)
+        {
+            Equipamento? e = equipamentos[i];
+            
+            if (e == null)
+                break;
+            if (e.fabricante == novoFabricante.nome)            
+                novoFabricante.numeroEquipamentos++;            
+        }         
+
+        return novoFabricante;
+    }
 }

@@ -6,9 +6,10 @@ using System.Security.Cryptography;
 public class TelaEquipamento
 {
     public RepositorioEquipamento repositorioEquipamento;
+    public RepositorioFabricante repositorioFabricante;
     public string? ObterEscolhaMenuPrincipal()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -26,7 +27,7 @@ public class TelaEquipamento
 
     public void Cadastrar()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -64,6 +65,18 @@ public class TelaEquipamento
         Console.WriteLine("Digite a data de fabricação do equipamento (DD/MM/AAAA): ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
+        Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
+
+        for (int i = 0; i <= fabricantes.Length; i++)
+        {
+            Fabricante? f = fabricantes[i];
+            
+            if (f == null)
+                break;
+            if (f.nome == novoEquipamento.fabricante)            
+                f.numeroEquipamentos++;        
+        }         
+
         repositorioEquipamento.Cadastrar(novoEquipamento);
         
         Console.WriteLine("---------------------------------");
@@ -75,7 +88,7 @@ public class TelaEquipamento
 
     public void Editar()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -147,6 +160,18 @@ public class TelaEquipamento
         Console.WriteLine("Digite a data de fabricação do equipamento (DD/MM/AAAA): ");
         novoEquipamento.dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
+        Fabricante?[] fabricantes = repositorioFabricante.SelecionarTodos();
+
+        for (int i = 0; i <= fabricantes.Length; i++)
+        {
+            Fabricante? f = fabricantes[i];
+            
+            if (f == null)
+                break;
+            if (f.nome == novoEquipamento.fabricante)            
+                f.numeroEquipamentos++;        
+        }         
+
         bool conseguiuEditar = repositorioEquipamento.Editar(idSelecionado, novoEquipamento);
                 
         if (!conseguiuEditar)
@@ -168,7 +193,7 @@ public class TelaEquipamento
 
     public void Excluir()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -228,7 +253,7 @@ public class TelaEquipamento
 
     public void Visualizar()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
