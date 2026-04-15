@@ -9,7 +9,7 @@ public class TelaEquipamento
     public RepositorioFabricante repositorioFabricante;
     public string? ObterEscolhaMenuPrincipal()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -27,7 +27,7 @@ public class TelaEquipamento
 
     public void Cadastrar()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -88,7 +88,7 @@ public class TelaEquipamento
 
     public void Editar()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -193,7 +193,7 @@ public class TelaEquipamento
 
     public void Excluir()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
@@ -253,7 +253,7 @@ public class TelaEquipamento
 
     public void Visualizar()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Equipamentos");
         Console.WriteLine("---------------------------------");
