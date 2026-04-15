@@ -5,23 +5,30 @@ using GestaoDeEquipamentos.ConsoleApp.Infraestrutura;
 
 RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
 RepositorioChamado repositorioChamado = new RepositorioChamado();
+RepositorioFabricante repositorioFabricante = new RepositorioFabricante();
 
 TelaEquipamento telaEquipamento = new TelaEquipamento();
 telaEquipamento.repositorioEquipamento = repositorioEquipamento;
+telaEquipamento.repositorioFabricante = repositorioFabricante;
 
 TelaChamado telaChamado = new TelaChamado();
 telaChamado.repositorioChamado = repositorioChamado;
 telaChamado.repositorioEquipamento = repositorioEquipamento;
 
+TelaFabricante telaFabricante = new TelaFabricante();
+telaFabricante.repositorioFabricante = repositorioFabricante;
+telaFabricante.repositorioChamado = repositorioChamado;
+telaFabricante.repositorioEquipamento = repositorioEquipamento;
+
 while (true)
-{
-    
+{    
     Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Gestão de Equipamentos");
     Console.WriteLine("---------------------------------");
     Console.WriteLine("1 - Gerenciar equipamento");
     Console.WriteLine("2 - Gerenciar chamados");    
+    Console.WriteLine("3 - Gerenciar fabricantes");    
     Console.WriteLine("S - Sair");
     Console.WriteLine("---------------------------------");
     Console.Write("> ");
@@ -79,6 +86,29 @@ while (true)
 
             else if (opcaoMenu == "4")
                 telaChamado.Visualizar(deveExibirCabecalho: true);
+        }
+
+        else if (opcaoMenuPrincipal == "3")
+        {
+            string? opcaoMenu = telaFabricante.ObterEscolhaMenuPrincipal();
+
+            if (opcaoMenu == "S")
+            {
+                Console.Clear();
+                break;
+            }
+
+            if (opcaoMenu == "1")
+                telaFabricante.Cadastrar();    
+
+            else if (opcaoMenu == "2")
+                telaFabricante.Editar();
+            
+            else if (opcaoMenu == "3")
+                telaFabricante.Excluir();
+
+            else if (opcaoMenu == "4")
+                telaFabricante.Visualizar(deveExibirCabecalho: true);
         }
     }    
 }    
