@@ -167,7 +167,7 @@ public class TelaEquipamento
             Fabricante? f = fabricantes[i];
             
             if (f == null)
-                break;
+                continue;
             if (f.nome == novoEquipamento.fabricante)            
                 f.numeroEquipamentos++;        
         }         
@@ -206,6 +206,7 @@ public class TelaEquipamento
         );
 
         Equipamento?[] equipamentos = repositorioEquipamento.SelecionarTodos();
+        
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -232,13 +233,15 @@ public class TelaEquipamento
         if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
             break;
         } while (true);
+        
 
         bool conseguiuExcluir = repositorioEquipamento.Excluir(idSelecionado);        
 
         if (conseguiuExcluir)
-        {
+        {   
             Console.WriteLine("---------------------------------");
-            Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");                 
+            Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");           
+            
         }
 
         else
