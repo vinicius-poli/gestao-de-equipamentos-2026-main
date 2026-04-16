@@ -7,6 +7,8 @@ RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
 RepositorioChamado repositorioChamado = new RepositorioChamado();
 RepositorioFabricante repositorioFabricante = new RepositorioFabricante();
 
+repositorioEquipamento.repositorioFabricante = repositorioFabricante; // <--- Faltou essa linha!
+
 TelaEquipamento telaEquipamento = new TelaEquipamento();
 telaEquipamento.repositorioEquipamento = repositorioEquipamento;
 telaEquipamento.repositorioFabricante = repositorioFabricante;
